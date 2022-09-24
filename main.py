@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from data import CheckpointPack
+from time import gmtime
+import json
 
 app = FastAPI()
 
@@ -11,9 +13,8 @@ async def root():
 
 @app.post("/checkpoint/")
 async def checkpoint(pack: CheckpointPack):
-    print(pack.tester)
-    print(pack.map)
-    print(pack.checkpoint)
-    print(pack.startTime)
-    print(len(pack.data), "datapoints")
+    gmt = gmtime()
+    timestamp = f"{gmt.tm_year}_{gmt.tm_mon}_{gmt.tm_mday}_{gmt.tm_hour}_{gmt.tm_min}_{gmt.tm_sec}_{pack.tester}"
+    with open(timestamp, "w") as f:
+        json.dump(pack.dict(), f)
     return
