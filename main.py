@@ -1,7 +1,9 @@
+import os
+
 from fastapi import FastAPI
 from data import CheckpointPack
 from time import gmtime
-import json
+from base64 import standard_b64decode
 
 app = FastAPI()
 
@@ -14,7 +16,8 @@ async def root():
 @app.post("/checkpoint/")
 async def checkpoint(pack: CheckpointPack):
     gmt = gmtime()
-    timestamp = f"{gmt.tm_year}_{gmt.tm_mon}_{gmt.tm_mday}_{gmt.tm_hour}_{gmt.tm_min}_{gmt.tm_sec}_{pack.tester}"
-    with open(timestamp, "w") as f:
-        json.dump(pack.dict(), f)
+    timestamp = f"{gmt.tm_year:04}{gmt.tm_mon:02}{gmt.tm_mday:02}{gmt.tm_hour:02}{gmt.tm_min:02}{gmt.tm_sec:02}"
+    os.makedirs(f"data/{pack.map}", exist_ok=True)
+    with open(f"data/{pack.map}/{pack.tester}_{timestamp}.bin", "wb") as f:
+        f.write(standard_b64decode(pack.movement))
     return
