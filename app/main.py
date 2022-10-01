@@ -1,7 +1,7 @@
 import os
 
 from fastapi import FastAPI
-from data import CheckpointPack
+from app.data import CheckpointPack
 from time import gmtime
 from base64 import standard_b64decode
 
