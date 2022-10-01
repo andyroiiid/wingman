@@ -5,7 +5,7 @@ from app.data import CheckpointPack
 from time import gmtime
 from base64 import standard_b64decode
 
-app = FastAPI()
+app = FastAPI(docs_url=None, redoc_url=None)
 
 
 @app.get("/")
