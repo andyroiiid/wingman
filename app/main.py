@@ -1,9 +1,18 @@
 import os
 
 from fastapi import FastAPI
-from app.data import CheckpointPack
 from time import gmtime
 from base64 import standard_b64decode
+from pydantic import BaseModel
+
+
+class CheckpointPack(BaseModel):
+    tester: str
+    map: str
+    checkpoint: str
+    time: float
+    movement: str
+
 
 app = FastAPI(docs_url=None, redoc_url=None)
 
